@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            background-color: skyblue;
+            height: 500px;
+            width: 700px;
+            margin: 50px auto;
+            border-radius: 50px;
+            text-align: center;
+        }
+        .head{
+            font-size: 50px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            border-bottom: 5px solid rgb(255, 255, 255);
+        }
+        .bottom{
+            display: grid;
+            gap:200px;
+        }
+        button{
+            width: 100px;
+            height: 40px;
+            border-radius: 10px;
+        }
+        button:hover{
+            background-color: rgb(68, 221, 208);
+            color: white;
+            zoom: 1.1;
+        }
+        .buttons{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        h1{
+            font-size: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+            <div class="head">
+                STOPWATCH
+            </div>
+            <div class="bottom">
+                <div class="stopwatch">
+                    <h1>00 : 00</h1>
+                </div>
+                <div class="buttons">
+                    <button class="start">START</button>
+                    <button class="stop">STOP</button>
+                    <button class="reset">RESET</button>
+                </div>
+            </div>
+    </div>
+</body>
+</html>
+<script>
+    document.querySelector(".start").addEventListener("click",startTimer);
+    document.querySelector(".stop").addEventListener("click",stopTimer);
+    document.querySelector(".reset").addEventListener("click",resetTimer);
+    const timer = document.querySelector('h1');
+    var hr = 0;
+    var min = 0;
+    var sec = 0;
+    var milisec=0;
+    var stoptime = true;
+
+function startTimer() { 
+  if (stoptime == true) {
+        stoptime = false;
+        timerCycle();
+    }
+}
+function stopTimer() {
+  if (stoptime == false) {
+    stoptime = true;
+  }
+}
+
+function timerCycle() {
+    if (stoptime == false) {
+    sec = +sec;
+    min = +min;
+    hr = +hr;
+    milisec= +milisec;
+    milisec++;
+    if (milisec == 60) {
+      sec = sec+1;
+      milisec = 0;
+    }
+    if (sec == 60) {
+      min = min + 1;
+      sec = 0;
+    }
+    if (min == 60) {
+      hr = hr + 1;
+      min = 0;
+      sec = 0;
+    }
+
+    if (sec < 10 || sec == 0) {
+      sec = '0' + sec;
+    }
+    if (min < 10 || min == 0) {
+      min = '0' + min;
+    }
+    if (hr < 10 || hr == 0) {
+      hr = '0' + hr;
+    }
+    if(milisec<10)
+    {
+        milisec="0"+milisec;
+    }
+    if(min==='0'+0)
+    {
+        timer.innerHTML = sec+" : "+milisec;
+    }
+    else if(hr==='0'+0)
+        timer.innerHTML =  min + ' : ' + sec+" : "+milisec;
+    else{
+        console.log("here");
+        timer.innerHTML = hr + ' : ' + min + ' : ' + sec+" : "+milisec;
+    }
+
+    setTimeout("timerCycle()",15);
+  }
+}
+
+function resetTimer() {
+    timer.innerHTML = '00 : 00';
+    stoptime = true;
+    hr = 0;
+    sec = 0;
+    min = 0;
+    milisec=0;
+}
+</script>
