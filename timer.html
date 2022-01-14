@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIMER</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            background-color: skyblue;
+            height: 500px;
+            width: 700px;
+            margin: 50px auto;
+            border-radius: 50px;
+            text-align: center;
+        }
+        .head{
+            font-size: 50px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            border-bottom: 5px solid rgb(255, 255, 255);
+        }
+        .bottom{
+            display: grid;
+            gap:200px;
+        }
+        button{
+            width: 100px;
+            height: 40px;
+            border-radius: 10px;
+        }
+        button:hover{
+            background-color: rgb(68, 221, 208);
+            color: white;
+            zoom: 1.1;
+        }
+        .buttons{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        h1{
+            font-size: 100px;
+        }
+        input{
+            height: 100px;
+            width: 120px;
+            font-size: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+            <div class="head">
+                TIMER
+            </div>
+            <div class="bottom">
+                <div class="stopwatch">
+                    <h1> 
+                        <input type="number" name="hrs" id="hrsInp" min="00" max="60" placeholder="0">:
+                        <input type="number" name="hrs" id="minInp" min="00" max="60" placeholder="0">:
+                        <input type="number" name="hrs" id="secInp" min="00" max="60" placeholder="0">
+                    </h1>
+                </div>
+                <div class="buttons">
+                    <button class="start">START</button>
+                    <button class="pause">PAUSE</button>
+                    <button class="reset">RESET</button>
+                </div>
+            </div>
+    </div>
+</body>
+</html>
+<script>
+    
+    document.querySelector(".start").addEventListener("click",startTimer);
+    document.querySelector(".pause").addEventListener("click",stopTimer);
+    document.querySelector(".reset").addEventListener("click",resetTimer);
+    const head=document.querySelector('h1');
+    const timer = document.querySelector('h1').innerHTML;
+    var hr,min,sec; 
+    var stoptime = true;
+    let clickedStop=false;
+function startTimer() { 
+    if(!clickedStop){
+    hr= +document.querySelector("#hrsInp").value;
+    min = +document.querySelector("#minInp").value;
+    sec = +document.querySelector("#secInp").value;
+    }
+    else{
+    hr= +head.textContent.split(":")[0];
+    min = +head.textContent.split(":")[1];
+    sec = +head.textContent.split(":")[2];
+    }
+    if(hr===0&&min===0&&sec===0||hr>60||min>60||sec>60||hr<0||min<0||sec<0)
+    {
+        alert("Invalid Input");
+        head.innerHTML=timer;
+        return;
+    }
+    if (stoptime === true) {
+        stoptime = false;
+        timerCycle();
+    }
+}
+function stopTimer() {
+    if(clickedStop===false){
+        clickedStop=true;
+    }
+  if (stoptime === false) {
+    stoptime = true;
+  }
+}
+
+function timerCycle() {
+    if (stoptime === false) 
+    {
+        if(hr===0&&min===0&&sec===0)
+        {
+            head.innerHTML = "TIME'S UP";
+            console.log("here");
+            return;
+        }
+        else
+        {
+            if(hr===0&&min===0&&sec!==0 || hr===0&&min!==0&&sec!==0||hr!==0&&min===0&&sec!==0||hr!==0&&min!==0&&sec!==0)
+            {
+                sec--;
+            }
+            else if(hr===0&&min!==0&&sec===0 || hr!==0&&min!==0&&sec===0)
+            {
+                min--;
+                sec=59;  
+            }
+            //else if(hr===0&&min!==0&&sec!==0)
+            //{
+            //    sec--;
+            //}
+            else if(hr!==0&&min===0&&sec===0)
+            {
+                hr--;
+                min=59;
+                sec=59;
+            }
+            // else if(hr!==0&&min===0&&sec!==0)
+            // {
+            //     sec--;
+            // }
+            // else if(hr!==0&&min!==0&&sec===0)
+            // {
+            //     min--;
+            //     sec=59; 
+            // }
+            // else if(hr!==0&&min!==0&&sec!==0)
+            // {
+            //     sec--;
+            // }
+        }
+            head.innerHTML = hr + ' : ' + min + ' : ' + sec;
+            setTimeout("timerCycle()",1000);
+    }
+        
+  }
+
+function resetTimer() {
+    head.innerHTML=timer;
+    stoptime = true;
+    clickedStop=false;
+}
+</script>
